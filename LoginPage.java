@@ -1,62 +1,42 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
-public class LoginPage extends Frame implements ActionListener {
-    // Declare components
-    Label usernameLabel, passwordLabel;
+public class LoginPage extends Frame {
     TextField usernameField, passwordField;
-    Button loginButton, cancelButton;
+    Button loginButton;
 
     public LoginPage() {
-        // Set up the frame
         setTitle("Login Page");
-        setSize(300, 200);
-        setLayout(new GridLayout(3, 2));
+        setSize(300, 300);
+        setLayout(new FlowLayout());
 
-        // Initialize components
-        usernameLabel = new Label("Username:");
-        passwordLabel = new Label("Password:");
-        usernameField = new TextField();
-        passwordField = new TextField();
-        passwordField.setEchoChar('*'); // Mask the password input
+        usernameField = new TextField(20);
+        passwordField = new TextField(20);
+        passwordField.setEchoChar('*');
         loginButton = new Button("Login");
-        cancelButton = new Button("Cancel");
 
-        // Add components to the frame
-        add(usernameLabel);
+        add(new Label("Username:"));
         add(usernameField);
-        add(passwordLabel);
+        add(new Label("Password:"));
         add(passwordField);
         add(loginButton);
-        add(cancelButton);
 
-        // Add action listeners
-        loginButton.addActionListener(this);
-        cancelButton.addActionListener(this);
+        loginButton.addActionListener(e -> loginUser());
 
-        // Set visibility and close operation
         setVisible(true);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                System.exit(0);
-            }
-        });
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Handle button clicks
-        if (e.getSource() == loginButton) {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            // Validate credentials (simple example)
-            if ("admin".equals(username) && "password".equals(password)) {
-                System.out.println("Login successful!");
-            } else {
-                System.out.println("Invalid credentials!");
-            }
-        } else if (e.getSource() == cancelButton) {
-            System.exit(0);
+    private void loginUser() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        String jsonInput = String.format("{\"username\":\"%s\", \"password\":\"%s\"}", username, password);
+
+        try {
+            String response = HttpRequest.post("http://localhost:8080/api/user/login", jsonInput);
+            JOptionPane.showMessageDialog(this, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 public class RegistrationPage extends Frame implements ActionListener {
     // Declare components
-    Label nameLabel, age,gender,dob,emailLabel,username,hireorwork,skills,linkwithac,profilepic,Description,passwordLabel,emailver; //if selecetd as work or if hire ;
+    Label nameLabel, age,gender,dob,emailLabel,linkwithac,passwordLabel; //if selecetd as work or if hire ;
     TextField nameField, emailField, passwordField;
     Button registerButton, cancelButton;
 
@@ -17,6 +17,9 @@ public class RegistrationPage extends Frame implements ActionListener {
         nameLabel = new Label("Name:");
         emailLabel = new Label("Email:");
         passwordLabel = new Label("Password:");
+        age = new Label("Age");
+        dob = new Label("DOB");
+        
 
         
         nameField = new TextField();
